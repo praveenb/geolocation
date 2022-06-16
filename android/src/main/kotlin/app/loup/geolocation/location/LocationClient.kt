@@ -238,45 +238,45 @@ class LocationClient(private val context: Context) {
           .first()
 
       locationUpdatesRequests.map { it.displacementFilter }
-          .min()!!
+              .minOrNull()!!
           .takeIf { it > 0 }
           ?.let { locationRequest.smallestDisplacement = it }
 
       locationUpdatesRequests
           .filter { it.options.interval != null }
           .map { it.options.interval!! }
-          .min()
+          .minOrNull()
           ?.let { locationRequest.interval = it }
 
       locationUpdatesRequests
           .filter { it.options.fastestInterval != null }
           .map { it.options.fastestInterval!! }
-          .min()
+          .minOrNull()
           ?.let { locationRequest.fastestInterval = it }
 
       locationUpdatesRequests
           .filter { it.options.expirationTime != null }
           .map { it.options.expirationTime!! }
-          .min()
+          .minOrNull()
           ?.let { locationRequest.expirationTime = it }
 
       locationUpdatesRequests
           .filter { it.options.expirationDuration != null }
           .map { it.options.expirationDuration!! }
-          .min()
+          .minOrNull()
           ?.let { locationRequest.setExpirationDuration(it) }
 
       locationUpdatesRequests
           .filter { it.options.maxWaitTime != null }
           .map { it.options.maxWaitTime!! }
-          .min()
+          .minOrNull()
           ?.let { locationRequest.maxWaitTime = it }
 
       if (locationUpdatesRequests.any { it.strategy == LocationUpdatesRequest.Strategy.Continuous }) {
         locationUpdatesRequests
             .filter { it.options.numUpdates != null }
             .map { it.options.numUpdates!! }
-            .max()
+            .maxOrNull()
             ?.let { locationRequest.numUpdates = it }
       } else {
         locationRequest.numUpdates = 1
@@ -433,7 +433,7 @@ class LocationClient(private val context: Context) {
 
                 try {
                   val resolvable = exception as ResolvableApiException
-                  resolvable.startResolutionForResult(activity, GeolocationPlugin.Intents.EnableLocationSettingsRequestId)
+                  resolvable.startResolutionForResult(activity!!, GeolocationPlugin.Intents.EnableLocationSettingsRequestId)
                   locationSettingsCallbacks.add(callback)
                 } catch (ignore: java.lang.Exception) {
                   callback.failure(Unit)
