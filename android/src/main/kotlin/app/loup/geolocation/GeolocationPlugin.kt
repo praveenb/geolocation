@@ -27,7 +27,7 @@ public class GeolocationPlugin : FlutterPlugin, ActivityAware, Application.Activ
 
       registrar.addRequestPermissionsResultListener(instance.locationClient.permissionResultListener)
       registrar.addActivityResultListener(instance.locationClient.activityResultListener)
-      registrar.activity().application.registerActivityLifecycleCallbacks(instance)
+      registrar.activity()?.application?.registerActivityLifecycleCallbacks(instance!!)
     }
 
     private fun register(instance: GeolocationPlugin, context: Context, binaryMessenger: BinaryMessenger) {
